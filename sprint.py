@@ -28,6 +28,31 @@ def GerenciaTime():
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
+def CadastraTime():
+    nome = input("Digite o nome do time: ")
+    if len(nome) == 0 or nome.isnumeric():
+        print("\nPor favor, insirá o nome do time")
+    else:
+        print(f"\nTime:{nome} cadastrado com sucesso!")
+        times.append(nome)
+
+def ListaTime():
+    print(f"\nTimes cadastrados:")
+    s = 0
+    for time in times:
+        s += 1
+        print(f"{s}.{time}")
+    return
+
+
+
+
+
+
+
+
+
+
 print("Bem-vindo(a) ao Passa a Bola!\n"
           "Sistema de organização de campeonatos")
 print("-" * 40)
