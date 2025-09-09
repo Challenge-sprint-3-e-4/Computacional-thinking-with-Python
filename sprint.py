@@ -12,6 +12,21 @@ def Mostra_menu():
           "5.Sair\n")
     return
 
+def GerenciaTime():
+    while True:
+        print("\nGERENCIAMENTO DE TIMES\n"
+              "1.Cadastrar novo time\n"
+              "2.Listar times\n"
+              "3.Voltar para o menu principal")
+        opcao = input("Escolha uma opção: ")
+        if opcao == "1":
+            CadastraTime()
+        elif opcao == "2":
+            ListaTime()
+        elif opcao == "3":
+            break
+        else:
+            print("OPÇÃO INVÁLIDA! Tente novamente")
 
 print("Bem-vindo(a) ao Passa a Bola!\n"
           "Sistema de organização de campeonatos")
