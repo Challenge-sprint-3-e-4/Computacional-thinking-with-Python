@@ -11,7 +11,7 @@ def Veri_numero(msg):
     return num
 
 def Mostra_menu():
-    print("Sistema de campeonatos\n"
+    print("\nSISTEMA DE CAMPEONATOS\n"
           "\n"
           "1.Gerenciar Times\n"
           "2.Gerenciar Jogadoras\n"
@@ -38,7 +38,7 @@ def GerenciaTime():
 
 def CadastraTime():
     nome = input("Digite o nome do time: ")
-    if len(nome) == 0 or nome.isnumeric():
+    if len(nome) <= 0 or nome.isnumeric():
         print("\nPor favor, insirá o nome do time")
     else:
         print(f"\nTime:{nome} cadastrado com sucesso!")
@@ -68,6 +68,7 @@ def GereciaJogadora():
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
+
 def Cadastrajoga():
     if len(times) == 0:
         print("Necessario criar time primeiro")
@@ -78,9 +79,9 @@ def Cadastrajoga():
         for i in times:
             s += 1
             print(f"{s}.{i}")
-        time = int(input(f"Número do time: "))
-        if time > 0 and time <= len(times):
-            time = times[time - 1]
+        escolha = int(input(f"Número do time: "))
+        if escolha > 0 and escolha <= len(times):
+            time = times[escolha - 1]
             print(f"Você escolheu o time:{time}")
             nome = input("Insirá nome da jogadora: ")
             camisa = Veri_numero("Insirá número da camiseta: ")
@@ -88,10 +89,12 @@ def Cadastrajoga():
             if nome.isnumeric() or len(nome) <= 0:
                 print("\nPor favor, insirá o nome da jogadora")
             else:
+                print("Jogadora Cadastrada!")
                 print(f"Jogadora:{nome}|camisa:{camisa}|posição:{posicao}")
                 jogadoras.append([nome, camisa, posicao, time])
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
+            return
 
 def ListaJoga():
     if len(times) == 0:
@@ -102,11 +105,8 @@ def ListaJoga():
         s = 0
         for i in jogadoras:
             s += 1
-            print(f"{s + 1}.{i}")
+            print(f"{s}.{i[0]},{i[1]},{i[2]},{i[3]}")
         return
-
-
-
 
 
 
@@ -125,6 +125,8 @@ while True:
     elif escolha == "4":
         Relatorio()
     elif escolha == "5":
+        print("Fim do sistema")
         break
     else:
-        print("Opção inválida!")
+        print("OPÇÃO INVÁLIDA! Tente novamente")
+
