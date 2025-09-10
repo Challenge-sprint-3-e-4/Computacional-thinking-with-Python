@@ -94,7 +94,7 @@ def Cadastrajoga():
                 jogadoras.append([nome, camisa, posicao, time])
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
-            return
+        return  
 
 def ListaJoga():
     if len(times) == 0:
