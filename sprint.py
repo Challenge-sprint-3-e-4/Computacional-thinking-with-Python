@@ -2,6 +2,14 @@ jogadoras = []
 times = []
 partidas = []
 
+
+def Veri_numero(msg):
+    num = input(msg)
+    while not num.isnumeric():
+        print("Só caracteres númericos!")
+        num = input(msg)
+    return num
+
 def Mostra_menu():
     print("Sistema de campeonatos\n"
           "\n"
