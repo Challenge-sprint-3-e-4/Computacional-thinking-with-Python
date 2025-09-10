@@ -79,7 +79,8 @@ def Cadastrajoga():
         for i in times:
             s += 1
             print(f"{s}.{i}")
-        escolha = int(input(f"Número do time: "))
+        escolha = Veri_numero(f"Número do time: ")
+        escolha = int(escolha)
         if escolha > 0 and escolha <= len(times):
             time = times[escolha - 1]
             print(f"Você escolheu o time:{time}")
@@ -94,11 +95,14 @@ def Cadastrajoga():
                 jogadoras.append([nome, camisa, posicao, time])
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
-        return  
+        return
 
 def ListaJoga():
     if len(times) == 0:
         print("Necessario criar time primeiro")
+        return
+    elif len(jogadoras) == 0:
+        print("Necessario cadastrar jogadoras")
         return
     else:
         print(f"\nJogadoras cadastradas:")
