@@ -52,7 +52,21 @@ def ListaTime():
         print(f"{s}.{time}")
     return
 
-
+def GereciaJogadora():
+    while True:
+        print("\nGERENCIAMENTO DE JOGADORAS\n"
+              "1.Cadastrar jogadoras\n"
+              "2.Listar Jogadoras\n"
+              "3.Voltar para o menu principal")
+        opcao = input("Escolha uma das opções: ")
+        if opcao == "1":
+            Cadastrajoga()
+        elif opcao == "2":
+            ListaJoga()
+        elif opcao == "3":
+            break
+        else:
+            print("OPÇÃO INVÁLIDA! Tente novamente")
 
 
 
