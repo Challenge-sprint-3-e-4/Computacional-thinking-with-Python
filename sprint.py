@@ -68,7 +68,42 @@ def GereciaJogadora():
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
+def Cadastrajoga():
+    if len(times) == 0:
+        print("Necessario criar time primeiro")
+        return
+    else:
+        print(f"Escolha um time")
+        s = 0
+        for i in times:
+            s += 1
+            print(f"{s}.{i}")
+        time = int(input(f"Número do time: "))
+        if time > 0 and time <= len(times):
+            time = times[time - 1]
+            print(f"Você escolheu o time:{time}")
+            nome = input("Insirá nome da jogadora: ")
+            camisa = Veri_numero("Insirá número da camiseta: ")
+            posicao = input("Posição da jogadora: ")
+            if nome.isnumeric() or len(nome) <= 0:
+                print("\nPor favor, insirá o nome da jogadora")
+            else:
+                print(f"Jogadora:{nome}|camisa:{camisa}|posição:{posicao}")
+                jogadoras.append([nome, camisa, posicao, time])
+        else:
+            print("OPÇÃO INVÁLIDA! Tente novamente")
 
+def ListaJoga():
+    if len(times) == 0:
+        print("Necessario criar time primeiro")
+        return
+    else:
+        print(f"\nJogadoras cadastradas:")
+        s = 0
+        for i in jogadoras:
+            s += 1
+            print(f"{s + 1}.{i}")
+        return
 
 
 
