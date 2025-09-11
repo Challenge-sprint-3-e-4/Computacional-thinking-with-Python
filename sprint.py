@@ -6,10 +6,10 @@ partidas = []  # Armazena as partidas
 
 # Função para validar se o valor digitado é um número (retorna inteiro)
 def Veri_numero(msg):
-    num = input(msg)
-    while not num.isnumeric():
+    num = input(msg) # pede um valor
+    while not num.isnumeric(): # enquanto não for número
         print("Só caracteres numéricos!")
-        num = input(msg)
+        num = input(msg) # pede de novo
     return int(num)  # já retorna inteiro
 
 
@@ -27,53 +27,53 @@ def Mostra_menu():
 
 # Função para gerenciar times
 def GerenciaTime():
-    while True:
+    while True: # fica em loop até escolher 3. para voltar ao menu principa
         print("\nGERENCIAMENTO DE TIMES\n"
               "1.Cadastrar novo time\n"
               "2.Listar times\n"
               "3.Voltar para o menu principal")
         opcao = input("Escolha uma opção: ")
-        if opcao == "1":
+        if opcao == "1": # cadastrar time
             CadastraTime()
-        elif opcao == "2":
+        elif opcao == "2": # listar times
             ListaTime()
-        elif opcao == "3":
+        elif opcao == "3": # voltar ao menu principal
             break
-        else:
+        else:  # opção inválida
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
 
 # Função para cadastrar time
-def CadastraTime():
+def CadastraTime(): 
     nome = input("Digite o nome do time: ").strip()
-    if not nome or nome.isnumeric():
+    if not nome or nome.isnumeric(): # valida nome
         print("\nPor favor, insirá um nome válido para o time")
     else: 
         print(f"\nTime: {nome} cadastrado com sucesso!")
-        times.append(nome)
+        times.append(nome) # adiciona o nome do time na lista de times
 
 
 # Função para listar times
 def ListaTime():
     print(f"\nTimes cadastrados:")
-    for i, time in enumerate(times, start=1):
-        print(f"{i}. {time}")
+    for i, time in enumerate(times, start=1):  # percorre a lista de times
+        print(f"{i}. {time}")  # printa cada time numerado
     return
 
 
 # Função para gerenciar jogadoras
 def GereciaJogadora():
-    while True:
+    while True: # fica em loop até escolher voltar
         print("\nGERENCIAMENTO DE JOGADORAS\n"
               "1.Cadastrar jogadoras\n"
               "2.Listar Jogadoras\n"
               "3.Voltar para o menu principal")
         opcao = input("Escolha uma das opções: ")
-        if opcao == "1":
+        if opcao == "1": # cadastrar jogadora
             Cadastrajoga()
-        elif opcao == "2":
+        elif opcao == "2": # listar jogadoras
             ListaJoga()
-        elif opcao == "3":
+        elif opcao == "3":  # voltar ao menu principal
             break
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
@@ -81,15 +81,15 @@ def GereciaJogadora():
 
 # Função para cadastrar jogadora
 def Cadastrajoga():
-    if len(times) == 0:
+    if len(times) == 0: # verifica se já existe time
         print("Necessário criar time primeiro")
         return
     else:
         print("Escolha um time")
         ListaTime()
-        escolha = Veri_numero("Número do time: ")
-        if escolha > 0 and escolha <= len(times):
-            time = times[escolha - 1]
+        escolha = Veri_numero("Número do time: ")  # pede o número do time
+        if escolha > 0 and escolha <= len(times):  # valida escolha
+            time = times[escolha - 1] # pega o time selecionado
             print(f"Você escolheu o time: {time}")
             nome = input("Insirá nome da jogadora: ").strip()
             camisa = Veri_numero("Insirá número da camiseta: ")
@@ -107,34 +107,34 @@ def Cadastrajoga():
 
 # Função para listar jogadoras
 def ListaJoga():
-    if len(times) == 0:
+    if len(times) == 0:  # se não há times
         print("Necessário criar time primeiro")
         return
-    elif len(jogadoras) == 0:
+    elif len(jogadoras) == 0:  # se não há jogadoras
         print("Necessário cadastrar jogadoras")
         return
     else: 
         print(f"\nJogadoras cadastradas:")
-        for i, j in enumerate(jogadoras, start=1):
-            print(f"{i}. nome:{j[0]} | camisa:{j[1]} | posição:{j[2]} | time:{j[3]}")
+        for i, j in enumerate(jogadoras, start=1): # percorre todas as jogadoras
+            print(f"{i}. nome:{j[0]} | camisa:{j[1]} | posição:{j[2]} | time:{j[3]}") # mostra cada jogadora com suas informações
         return
 
 
 # Função para gerenciar partidas
-def GerenciaPartida():
+def GerenciaPartida(): # fica em loop até escolher 3. para voltar ao menu principa
     while True:
         print("\nGERENCIAMENTO DE PARTIDAS\n"
               "1. Cadastrar nova partida\n"
               "2. Listar partidas\n"
               "3. Voltar para o menu principal")
         opcao = input("Escolha uma opção: ")
-        if opcao == "1":
+        if opcao == "1": # cadastrar time
             CadastraPartida()
-        elif opcao == "2":
+        elif opcao == "2": # listar times
             ListaPartida()
-        elif opcao == "3":
+        elif opcao == "3": # voltar ao menu principal
             break
-        else:
+        else:  # opção inválida
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
 
@@ -173,7 +173,7 @@ def ListaPartida():
     for i, p in enumerate(partidas, start=1):
         print(f"{i}. {p['time1']} {p['gols1']} x {p['gols2']} {p['time2']}")
 
-
+# Função para relatórios
 # Função para relatórios
 def Relatorio():
     while True:
@@ -243,7 +243,6 @@ def Classificacao():
     for time, pts in tabela:
         print(f"{pos}º lugar: {time} - {pts} pontos")
         pos += 1
-
 
 
 # Código principal
