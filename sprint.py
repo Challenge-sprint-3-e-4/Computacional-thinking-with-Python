@@ -1,7 +1,20 @@
 # Listas principais usadas no sistema
-jogadoras = [] # Armazena jogadoras cadastradas (nome, camisa, posição, time)
-times = []     # Armazena os times cadastrados
-partidas = []  # Armazena as partidas
+jogadoras = []      # Armazena jogadoras cadastradas (nome, camisa, posição, time)
+times = []          # Armazena os times cadastrados
+vagas_goleira = []  # Vagas de goleira por time
+vagas_defensora = []# Vagas de defensora por time
+vagas_meio = []     # Vagas de meio por time
+vagas_atacante = [] # Vagas de atacante por time
+partidas = []       # Armazena as partidas
+
+# Padrão de formação do time
+PADRAO_GOLEIRA = 1
+PADRAO_DEFENSORA = 2
+PADRAO_MEIO = 2
+PADRAO_ATACANTE = 2
+
+# Senha de admin
+senha_admin = "1234"
 
 
 # Função para validar se o valor digitado é um número (retorna inteiro)
@@ -13,128 +26,111 @@ def Veri_numero(msg):
     return int(num)  # já retorna inteiro
 
 
-# Função que mostra o menu principal
-def Mostra_menu():
-    print("\nSISTEMA DE CAMPEONATOS\n"
-          "\n"
-          "1.Gerenciar Times\n"
-          "2.Gerenciar Jogadoras\n"
-          "3.Gerenciar Partidas\n"
-          "4.Relatórios\n"
-          "5.Sair\n")
-    return
+# Função para criar um novo time automaticamente
+def CriarTimeAutomatico():
+    nome = f"Time {len(times)+1}"  # nome do time sequencial
+    times.append(nome)  # adiciona na lista de times
+    vagas_goleira.append(PADRAO_GOLEIRA)  # define vagas iniciais
+    vagas_defensora.append(PADRAO_DEFENSORA)
+    vagas_meio.append(PADRAO_MEIO)
+    vagas_atacante.append(PADRAO_ATACANTE)
+    print(f"\nNovo {nome} criado automaticamente!")
+    return len(times)-1  # retorna índice do time
 
 
-# Função para gerenciar times
-def GerenciaTime():
-    while True: # fica em loop até escolher 3. para voltar ao menu principa
-        print("\nGERENCIAMENTO DE TIMES\n"
-              "1.Cadastrar novo time\n"
-              "2.Listar times\n"
-              "3.Voltar para o menu principal")
-        opcao = input("Escolha uma opção: ")
-        if opcao == "1": # cadastrar time
-            CadastraTime()
-        elif opcao == "2": # listar times
-            ListaTime()
-        elif opcao == "3": # voltar ao menu principal
+# Função para inscrever jogadora
+def Cadastrajoga():
+    print("\n--- INSCRIÇÃO DE JOGADORA ---")
+    nome = input("Insirá nome da jogadora: ")
+    camisa = Veri_numero("Insirá número da camiseta: ")
+
+    # Loop para garantir posição válida
+    while True:
+        print("Posições disponíveis: Goleira, Defensora, Meio, Atacante")
+        posicao = input("Posição da jogadora: ")
+        if posicao in ["Goleira", "Defensora", "Meio", "Atacante"]:
             break
-        else:  # opção inválida
-            print("OPÇÃO INVÁLIDA! Tente novamente")
+        print("Posição inválida! Tente novamente.")
+
+    # Tenta alocar jogadora em um time existente
+    alocada = False
+    for i in range(len(times)):
+        if posicao == "Goleira" and vagas_goleira[i] > 0:
+            vagas_goleira[i] -= 1
+            jogadoras.append([nome, camisa, posicao, times[i]])
+            print(f"Jogadora {nome} inscrita no {times[i]}!")
+            alocada = True
+            break
+        elif posicao == "Defensora" and vagas_defensora[i] > 0:
+            vagas_defensora[i] -= 1
+            jogadoras.append([nome, camisa, posicao, times[i]])
+            print(f"Jogadora {nome} inscrita no {times[i]}!")
+            alocada = True
+            break
+        elif posicao == "Meio" and vagas_meio[i] > 0:
+            vagas_meio[i] -= 1
+            jogadoras.append([nome, camisa, posicao, times[i]])
+            print(f"Jogadora {nome} inscrita no {times[i]}!")
+            alocada = True
+            break
+        elif posicao == "Atacante" and vagas_atacante[i] > 0:
+            vagas_atacante[i] -= 1
+            jogadoras.append([nome, camisa, posicao, times[i]])
+            print(f"Jogadora {nome} inscrita no {times[i]}!")
+            alocada = True
+            break
+
+    # Se não conseguiu alocar em nenhum time existente, cria novo time
+    if not alocada:
+        i = CriarTimeAutomatico()
+        if posicao == "Goleira":
+            vagas_goleira[i] -= 1
+        elif posicao == "Defensora":
+            vagas_defensora[i] -= 1
+        elif posicao == "Meio":
+            vagas_meio[i] -= 1
+        elif posicao == "Atacante":
+            vagas_atacante[i] -= 1
+        jogadoras.append([nome, camisa, posicao, times[i]])
+        print(f"Jogadora {nome} inscrita no {times[i]}!")
 
 
-# Função para cadastrar time
-def CadastraTime(): 
-    nome = input("Digite o nome do time: ").strip()
-    if not nome or nome.isnumeric(): # valida nome
-        print("\nPor favor, insirá um nome válido para o time")
-    else: 
-        print(f"\nTime: {nome} cadastrado com sucesso!")
-        times.append(nome) # adiciona o nome do time na lista de times
-
-
-# Função para listar times
+# Função para listar times e suas jogadoras
 def ListaTime():
     print(f"\nTimes cadastrados:")
     for i, time in enumerate(times, start=1):  # percorre a lista de times
         print(f"{i}. {time}")  # printa cada time numerado
-    return
 
 
-# Função para gerenciar jogadoras
-def GereciaJogadora():
-    while True: # fica em loop até escolher voltar
-        print("\nGERENCIAMENTO DE JOGADORAS\n"
-              "1.Cadastrar jogadoras\n"
-              "2.Listar Jogadoras\n"
-              "3.Voltar para o menu principal")
-        opcao = input("Escolha uma das opções: ")
-        if opcao == "1": # cadastrar jogadora
-            Cadastrajoga()
-        elif opcao == "2": # listar jogadoras
-            ListaJoga()
-        elif opcao == "3":  # voltar ao menu principal
-            break
+def ListaTimesComJogadoras():
+    if not times:
+        print("Nenhum time formado ainda.")
+        return
+    for i, nome_time in enumerate(times):
+        print(f"\n{nome_time} - Vagas restantes: G:{vagas_goleira[i]} D:{vagas_defensora[i]} M:{vagas_meio[i]} A:{vagas_atacante[i]}")
+        jogas = [j for j in jogadoras if j[3] == nome_time]
+        if jogas:
+            for j in jogas:
+                print(f"  - {j[0]} | Camisa {j[1]} | {j[2]}")
         else:
-            print("OPÇÃO INVÁLIDA! Tente novamente")
-
-
-# Função para cadastrar jogadora
-def Cadastrajoga():
-    if len(times) == 0: # verifica se já existe time
-        print("Necessário criar time primeiro")
-        return
-    else:
-        print("Escolha um time")
-        ListaTime()
-        escolha = Veri_numero("Número do time: ")  # pede o número do time
-        if escolha > 0 and escolha <= len(times):  # valida escolha
-            time = times[escolha - 1] # pega o time selecionado
-            print(f"Você escolheu o time: {time}")
-            nome = input("Insirá nome da jogadora: ").strip()
-            camisa = Veri_numero("Insirá número da camiseta: ")
-            posicao = input("Posição da jogadora: ").strip()
-            if not nome or nome.isnumeric():
-                print("\nPor favor, insirá um nome válido para a jogadora")
-            else:
-                print("Jogadora Cadastrada!")
-                print(f"Jogadora:{nome} | camisa:{camisa} | posição:{posicao}")
-                jogadoras.append([nome, camisa, posicao, time])
-        else:
-            print("OPÇÃO INVÁLIDA! Tente novamente")
-        return
-
-
-# Função para listar jogadoras
-def ListaJoga():
-    if len(times) == 0:  # se não há times
-        print("Necessário criar time primeiro")
-        return
-    elif len(jogadoras) == 0:  # se não há jogadoras
-        print("Necessário cadastrar jogadoras")
-        return
-    else: 
-        print(f"\nJogadoras cadastradas:")
-        for i, j in enumerate(jogadoras, start=1): # percorre todas as jogadoras
-            print(f"{i}. nome:{j[0]} | camisa:{j[1]} | posição:{j[2]} | time:{j[3]}") # mostra cada jogadora com suas informações
-        return
+            print("  Nenhuma jogadora ainda.")
 
 
 # Função para gerenciar partidas
-def GerenciaPartida(): # fica em loop até escolher 3. para voltar ao menu principa
+def GerenciaPartida(): # fica em loop até escolher 3. para voltar ao menu principal
     while True:
         print("\nGERENCIAMENTO DE PARTIDAS\n"
               "1. Cadastrar nova partida\n"
               "2. Listar partidas\n"
               "3. Voltar para o menu principal")
         opcao = input("Escolha uma opção: ")
-        if opcao == "1": # cadastrar time
+        if opcao == "1":
             CadastraPartida()
-        elif opcao == "2": # listar times
+        elif opcao == "2":
             ListaPartida()
-        elif opcao == "3": # voltar ao menu principal
+        elif opcao == "3":
             break
-        else:  # opção inválida
+        else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
 
@@ -143,7 +139,7 @@ def CadastraPartida():
     if len(times) < 2:
         print("É necessário ter pelo menos 2 times cadastrados.")
         return
-    
+
     print("\nTimes disponíveis:")
     ListaTime()
 
@@ -153,14 +149,14 @@ def CadastraPartida():
     if t1 <= 0 or t1 > len(times) or t2 <= 0 or t2 > len(times) or t1 == t2:
         print("Escolha inválida de times!")
         return
-    
+
     time1 = times[t1 - 1]
     time2 = times[t2 - 1]
 
     gols1 = Veri_numero(f"Gols do {time1}: ")
     gols2 = Veri_numero(f"Gols do {time2}: ")
 
-    partidas.append({"time1": time1, "gols1": gols1, "time2": time2, "gols2": gols2})
+    partidas.append([time1, gols1, time2, gols2])
     print(f"Partida registrada: {time1} {gols1} x {gols2} {time2}")
 
 
@@ -171,9 +167,53 @@ def ListaPartida():
         return
     print("\nPartidas registradas:")
     for i, p in enumerate(partidas, start=1):
-        print(f"{i}. {p['time1']} {p['gols1']} x {p['gols2']} {p['time2']}")
+        print(f"{i}. {p[0]} {p[1]} x {p[3]} {p[2]}")
 
-# Função para relatórios
+
+# Relatório de jogadoras por time
+def RelatorioJogadorasPorTime():
+    if len(times) == 0:
+        print("Nenhum time cadastrado.")
+        return
+    for i, nome_time in enumerate(times):
+        print(f"\nTime: {nome_time}")
+        jogas = [j for j in jogadoras if j[3] == nome_time]
+        if len(jogas) == 0:
+            print("  Nenhuma jogadora cadastrada.")
+        else:
+            for j in jogas:
+                print(f"  - {j[0]} | Camisa {j[1]} | {j[2]}")
+
+
+# Relatório de Classificação dos times
+def Classificacao():
+    if len(partidas) == 0:
+        print("Nenhuma partida registrada para gerar classificação.")
+        return
+
+    pontos = [0]*len(times)
+
+    # calcula pontos a partir das partidas
+    for p in partidas:
+        i1 = times.index(p[0])
+        i2 = times.index(p[2])
+        if p[1] > p[3]:
+            pontos[i1] += 3
+        elif p[1] < p[3]:
+            pontos[i2] += 3
+        else:
+            pontos[i1] += 1
+            pontos[i2] += 1
+
+    # gera ranking
+    ranking = list(zip(times, pontos))
+    ranking.sort(key=lambda x: x[1], reverse=True)
+
+    print("\nCLASSIFICAÇÃO:")
+    for pos, (time, pts) in enumerate(ranking, start=1):
+        print(f"{pos}º lugar: {time} - {pts} pontos")
+
+
 # Função para relatórios
 def Relatorio():
     while True:
@@ -181,7 +221,7 @@ def Relatorio():
               "1. Jogadoras por time\n"
               "2. Todas as partidas\n"
               "3. Classificação dos times\n"
-              "4. Voltar ao menu principal")
+              "4. Voltar")
         opcao = input("Escolha uma opção: ")
         if opcao == "1":
             RelatorioJogadorasPorTime()
@@ -195,73 +235,49 @@ def Relatorio():
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
 
-# Relatório de jogadoras por time
-def RelatorioJogadorasPorTime():
-    if len(times) == 0:
-        print("Nenhum time cadastrado.")
-        return
-    for time in times:
-        print(f"\nTime: {time}")
-        jogas = [j for j in jogadoras if j[3] == time]
-        if len(jogas) == 0:
-            print("  Nenhuma jogadora cadastrada.")
-        else:
-            for j in jogas:
-                print(f"  - {j[0]} | Camisa {j[1]} | {j[2]}")
-
-
-# Relatório de Classificação dos times
-def Classificacao():
-    if len(partidas) == 0:
-        print("Nenhuma partida registrada para gerar classificação.")
-        return
-    
-    pontos = {time: 0 for time in times}
-
-    # calcula pontos a partir das partidas
-    for p in partidas:
-        if p["gols1"] > p["gols2"]:
-            pontos[p["time1"]] += 3
-        elif p["gols1"] < p["gols2"]:
-            pontos[p["time2"]] += 3
-        else:
-            pontos[p["time1"]] += 1
-            pontos[p["time2"]] += 1
-    
-    print("\nCLASSIFICAÇÃO:")
-
-    # transforma em lista de tuplas (time, pontos)
-    tabela = list(pontos.items())
-
-    # ordena manualmente (do maior para o menor)
-    for i in range(len(tabela)):
-        for j in range(i + 1, len(tabela)):
-            if tabela[j][1] > tabela[i][1]:  # compara pontos
-                tabela[i], tabela[j] = tabela[j], tabela[i]
-
-    pos = 1
-    for time, pts in tabela:
-        print(f"{pos}º lugar: {time} - {pts} pontos")
-        pos += 1
-
-
 # Código principal
-print("Bem-vindo(a) ao Passa a Bola!\n"
-          "Sistema de organização de campeonatos")
-print("-" * 40)
-while True:
-    Mostra_menu()
-    escolha = input("Escolha uma opção: ")
-    if escolha == "1":
-        GerenciaTime()
-    elif escolha == "2":
-        GereciaJogadora()
-    elif escolha == "3":
-        GerenciaPartida()
-    elif escolha == "4":
-        Relatorio()
-    elif escolha == "5":
-        print("Fim do sistema")
-        break
+print("Bem-vindo(a) ao Passa a Bola!\nSistema de organização de campeonatos")
+print("-"*40)
+
+usuario = input("Você é (1) Admin ou (2) Jogadora? ")
+
+if usuario == "1":  # Admin
+    senha = input("Digite a senha de administrador: ")
+    if senha != senha_admin:
+        print("Senha incorreta! Programa encerrado.")
     else:
-        print("OPÇÃO INVÁLIDA! Tente novamente")
+        while True:
+            print("\nMENU ADMIN\n"
+                  "1. Listar times e jogadoras\n"
+                  "2. Gerenciar partidas\n"
+                  "3. Relatórios\n"
+                  "4. Sair")
+            opcao = input("Escolha: ")
+            if opcao == "1":
+                ListaTimesComJogadoras()
+            elif opcao == "2":
+                GerenciaPartida()
+            elif opcao == "3":
+                Relatorio()
+            elif opcao == "4":
+                print("Fim do sistema (Admin)")
+                break
+            else:
+                print("Opção inválida!")
+
+elif usuario == "2":  # Jogadora
+    while True:
+        print("\nMENU JOGADORA\n"
+              "1. Fazer inscrição\n"
+              "2. Sair")
+        opcao = input("Escolha: ")
+        if opcao == "1":
+            Cadastrajoga()
+        elif opcao == "2":
+            print("Fim do sistema (Jogadora)")
+            break
+        else:
+            print("Opção inválida!")
+
+else:
+    print("Opção inválida! Programa encerrado.")
