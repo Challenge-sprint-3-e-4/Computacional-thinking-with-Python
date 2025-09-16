@@ -1,4 +1,4 @@
-# Projeto Acadêmico FIAP - Challenge 2025 - Sprint 3-4
+# Projeto Acadêmico FIAP - Challenge 2025 - Sprint 3
 **Parceria com o Passa Bola**
 
 Este é um *projeto acadêmico FIAP*, desenvolvio como parte do *challenge 2025*, focado em *auxiliar o Passa Bola na organização e gerenciamento de seus campeonatos*. O sistema integra funções, condições, listas e loops.
