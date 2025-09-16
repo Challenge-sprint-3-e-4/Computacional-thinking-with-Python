@@ -239,45 +239,49 @@ def Relatorio():
 print("Bem-vindo(a) ao Passa a Bola!\nSistema de organização de campeonatos")
 print("-"*40)
 
-usuario = input("Você é (1) Admin ou (2) Jogadora? ")
+while True:
+    usuario = input("Você é (1) Admin ou (2) Jogadora? ")
 
-if usuario == "1":  # Admin
-    senha = input("Digite a senha de administrador: ")
-    if senha != senha_admin:
-        print("Senha incorreta! Programa encerrado.")
-    else:
+    if usuario == "1":  # Admin
+        senha = input("Digite a senha de administrador: ")
+        if senha != senha_admin:
+            print("Senha incorreta! Programa encerrado.")
+            break
+        else:
+            while True:
+                print("\nMENU ADMIN\n"
+                      "1. Listar times e jogadoras\n"
+                      "2. Gerenciar partidas\n"
+                      "3. Relatórios\n"
+                      "4. Sair")
+                opcao = input("Escolha: ")
+                if opcao == "1":
+                    ListaTimesComJogadoras()
+                elif opcao == "2":
+                    GerenciaPartida()
+                elif opcao == "3":
+                    Relatorio()
+                elif opcao == "4":
+                    print("Fim do sistema (Admin)")
+                    break
+                else:
+                    print("Opção inválida!")
+            break  # encerra o programa depois que Admin sai
+
+    elif usuario == "2":  # Jogadora
         while True:
-            print("\nMENU ADMIN\n"
-                  "1. Listar times e jogadoras\n"
-                  "2. Gerenciar partidas\n"
-                  "3. Relatórios\n"
-                  "4. Sair")
+            print("\nMENU JOGADORA\n"
+                  "1. Fazer inscrição\n"
+                  "2. Sair")
             opcao = input("Escolha: ")
             if opcao == "1":
-                ListaTimesComJogadoras()
+                Cadastrajoga()
             elif opcao == "2":
-                GerenciaPartida()
-            elif opcao == "3":
-                Relatorio()
-            elif opcao == "4":
-                print("Fim do sistema (Admin)")
+                print("Fim do sistema (Jogadora)")
                 break
             else:
                 print("Opção inválida!")
 
-elif usuario == "2":  # Jogadora
-    while True:
-        print("\nMENU JOGADORA\n"
-              "1. Fazer inscrição\n"
-              "2. Sair")
-        opcao = input("Escolha: ")
-        if opcao == "1":
-            Cadastrajoga()
-        elif opcao == "2":
-            print("Fim do sistema (Jogadora)")
-            break
-        else:
-            print("Opção inválida!")
-
-else:
-    print("Opção inválida! Programa encerrado.")
+    else:
+        print("Opção inválida! Programa encerrado.")
+        break
