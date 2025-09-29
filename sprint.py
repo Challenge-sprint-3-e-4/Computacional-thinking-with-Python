@@ -120,15 +120,21 @@ def ListaTimesComJogadoras():
 def GerenciaPartida(): # fica em loop até escolher 3. para voltar ao menu principal
     while True:
         print("\nGERENCIAMENTO DE PARTIDAS\n"
-              "1. Cadastrar nova partida\n"
-              "2. Listar partidas\n"
-              "3. Voltar para o menu principal")
+              "1. Cadastrar nova Partida\n"
+              "2. Listar Partidas\n"
+              "3. Editar Partidas\n"
+              "4. Remover Partidas\n"
+              "5. Voltar para o menu principal")
         opcao = input("Escolha uma opção: ")
         if opcao == "1":
             CadastraPartida()
         elif opcao == "2":
             ListaPartida()
         elif opcao == "3":
+            EditarPertida()
+        elif opcao == "4":
+            RemoverPartida()
+        elif opcao == "5":
             break
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
