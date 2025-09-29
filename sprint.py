@@ -175,6 +175,48 @@ def ListaPartida():
     for i, p in enumerate(partidas, start=1):
         print(f"{i}. {p[0]} {p[1]} x {p[3]} {p[2]}")
 
+# Função De editar prtidas
+def EditarPertida():
+    if len(partidas) <= 0:
+        print("Nenhuma partida cadastrada")
+        return
+    print("Editar Partidas")
+    ListaPartida()
+    num = Veri_numero("\nQual partida deseja editar?\n->")
+    if num <= 0 or num > len(partidas):
+        print("Número inválido")
+        return
+    partida = partidas[num - 1]
+    print(f"\nPartida atual: {partida[0]} {partida[1]} x {partida[3]} {partida[2]}")
+
+    print("\nDigite os novos placares:")
+    novo_gols1 = Veri_numero(f"Gols do {partida[0]}: ")
+    novo_gols2 = Veri_numero(f"Gols do {partida[2]}: ")
+
+    partidas[num - 1][1] = novo_gols1
+    partidas[num - 1][3] = novo_gols2
+
+    print(f"Partida atualizada: {partida[0]} {novo_gols1} x {novo_gols2} {partida[2]}")
+#Função para remover partidas:
+def RemoverPartida():
+    if len(partidas) == 0:
+        print("Nenhma partida cadastrada")
+        return
+    print("Remover Partida")
+    ListaPartida()
+    num = Veri_numero("\nQual partida você deseja cancelar?\n->")
+    if num <= 0 or num > len(partidas):
+        print("Número inválido")
+        return
+    partida = partidas[num - 1]
+    print(f"\nVocê irá cancelar: {partida[0]} {partida[1]} x {partida[3]} {partida[2]}")
+    confirmar = input("Tem certeza? (s/n)\n->")
+    if confirmar == "s":
+        partidas.pop(num-1)
+        print("Partida Cancelada!")
+    else:
+        print("Opção cancelada")
+
 
 # Relatório de jogadoras por time
 def RelatorioJogadorasPorTime():
