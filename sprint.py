@@ -234,6 +234,42 @@ def Relatorio():
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
+# Função de editar jogadoras
+def EditarJogadoras():
+    s = 0
+    if len(jogadoras) <= 0:
+        print("Nenhuma jogadora cadastrada")
+    if len(times) <= 0:
+        print("Nenhum Time cadastrado")
+    print("\nEditar Jogadoras")
+    print("\nJogadoras cadastradas:")
+    for jog in jogadoras:
+        s += 1
+        print(f"{s}. {jog[0]} |Camisa: {jog[1]} | {jog[2]} | {jog[3]}")
+    num = Veri_numero("Qual jogadora deseja editar?\n->")
+    if num <= 0 or num > len(jogadoras):
+        print("Número inválido")
+        return
+    while True:
+        print("\nO que deseja alterar?"
+              "\n1.Nome"
+              "\n2.Número da camisa"
+              "\n3.Voltar")
+        opcao = input("Escolha uma opção: ")
+        if opcao == "1":
+            novo_nome = input("Insirá novo nome: ")
+            jogadoras[num - 1][0] = novo_nome
+            print(f"Nome atualizado!"
+                  f"\nNovo nome: {novo_nome}")
+        elif opcao == "2":
+            nova_camisa = input("Insirá novo número de camisa: ")
+            jogadoras[num - 1][1] = nova_camisa
+            print(f"Número atualizado"
+                  f"\nNovo número de camisa: {nova_camisa}")
+        elif opcao == "3":
+            break
+        else:
+            print("Opção inválida!")
 
 # Código principal
 print("Bem-vindo(a) ao Passa a Bola!\nSistema de organização de campeonatos")
