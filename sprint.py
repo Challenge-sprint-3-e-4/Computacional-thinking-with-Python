@@ -234,23 +234,38 @@ def Relatorio():
         else:
             print("OPÇÃO INVÁLIDA! Tente novamente")
 
+#Função para gerenciar jogadoras
+def GerenciaJogadoras():
+    while True:
+        print("Gerenciamento de Jogadoras")
+        print("1. Editar Jogadoras\n"
+              "2. Remover Jogadoras\n"
+              "3. Voltar")
+        opcao = input("Escolha uma das opções: ")
+        if opcao == "1":
+            EditarJogadoras()
+        elif opcao == "2":
+            RemoverJogadoras()
+        elif opcao == "3":
+            break
+        else:
+            print("Opção inválida")
+
 # Função de editar jogadoras
 def EditarJogadoras():
-    s = 0
     if len(jogadoras) <= 0:
         print("Nenhuma jogadora cadastrada")
     if len(times) <= 0:
         print("Nenhum Time cadastrado")
-    print("\nEditar Jogadoras")
-    print("\nJogadoras cadastradas:")
-    for jog in jogadoras:
-        s += 1
-        print(f"{s}. {jog[0]} |Camisa: {jog[1]} | {jog[2]} | {jog[3]}")
-    num = Veri_numero("Qual jogadora deseja editar?\n->")
-    if num <= 0 or num > len(jogadoras):
-        print("Número inválido")
-        return
     while True:
+        print("\nEditar Jogadoras")
+        print("\nJogadoras cadastradas:")
+        for i, jog in enumerate(jogadoras, start=1):
+            print(f"{i}. {jog[0]} | Camisa {jog[1]} | {jog[2]} | {jog[3]}")
+        num = Veri_numero("Qual jogadora deseja editar?\n->")
+        if num <= 0 or num > len(jogadoras):
+            print("Número inválido")
+            return
         print("\nO que deseja alterar?"
               "\n1.Nome"
               "\n2.Número da camisa"
@@ -271,6 +286,49 @@ def EditarJogadoras():
         else:
             print("Opção inválida!")
 
+#Função para remover jogadoras
+def RemoverJogadoras():
+    if len(jogadoras) == 0:
+        print("Nenhuma jogadora cadastrada.")
+        return
+
+    print("\n--- REMOVER JOGADORA ---")
+    print("\nJogadoras cadastradas:")
+    for i, jog in enumerate(jogadoras, start=1):
+        print(f"{i}. {jog[0]} | Camisa {jog[1]} | {jog[2]} | {jog[3]}")
+
+    num = Veri_numero("\nQual jogadora deseja remover?")
+
+    if num == 0:
+        return
+    if num <= 0 or num > len(jogadoras):
+        print("Número inválido!")
+        return
+
+    jogadora = jogadoras[num - 1]
+    nome = jogadora[0]
+    posicao = jogadora[2]
+    time = jogadora[3]
+
+    print(f"\nVocê vai remover: {nome} ({posicao}) do {time}")
+    confirma = input("Tem certeza? (s/n): ")
+
+    if confirma.lower() != 's':
+        print("Operação cancelada.")
+        return
+    indice_time = times.index(time)
+    if posicao == "Goleira":
+        vagas_goleira[indice_time] += 1
+    elif posicao == "Defensora":
+        vagas_defensora[indice_time] += 1
+    elif posicao == "Meio":
+        vagas_meio[indice_time] += 1
+    elif posicao == "Atacante":
+        vagas_atacante[indice_time] += 1
+
+    jogadoras.pop(num - 1)
+    print(f"Jogadora {nome} removida com sucesso!")
+
 # Código principal
 print("Bem-vindo(a) ao Passa a Bola!\nSistema de organização de campeonatos")
 print("-"*40)
@@ -288,16 +346,19 @@ while True:
                 print("\nMENU ADMIN\n"
                       "1. Listar times e jogadoras\n"
                       "2. Gerenciar partidas\n"
-                      "3. Relatórios\n"
-                      "4. Sair")
+                      "3. Gerenciar Jogadoras\n"
+                      "4. Relatórios\n"
+                      "5. Sair")
                 opcao = input("Escolha: ")
                 if opcao == "1":
                     ListaTimesComJogadoras()
                 elif opcao == "2":
                     GerenciaPartida()
                 elif opcao == "3":
-                    Relatorio()
+                    GerenciaJogadoras()
                 elif opcao == "4":
+                    Relatorio()
+                elif opcao == "5":
                     print("Fim do sistema (Admin)")
                     break
                 else:
