@@ -1,4 +1,4 @@
-
+import json
 # Listas principais usadas no sistema
 jogadoras = []      # Armazena jogadoras cadastradas (nome, camisa, posição, time)
 times = []          # Armazena os times cadastrados
