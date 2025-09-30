@@ -1,3 +1,4 @@
+
 # Listas principais usadas no sistema
 jogadoras = []      # Armazena jogadoras cadastradas (nome, camisa, posição, time)
 times = []          # Armazena os times cadastrados
@@ -15,6 +16,17 @@ PADRAO_ATACANTE = 2
 
 # Senha de admin
 senha_admin = "1234"
+
+def SalvarDados():
+    dados = {
+        'Jogadoras' : jogadoras,
+        'Times': times,
+        'Vagas_goleira' : vagas_goleira,
+        'Vagas_defensora' : vagas_defensora,
+        'Vagas_meio' : vagas_meio,
+        'Vagas_Atacantes' : vagas_atacante,
+        'Partidas' : partidas,
+    }
 
 
 # Função para validar se o valor digitado é um número (retorna inteiro)
