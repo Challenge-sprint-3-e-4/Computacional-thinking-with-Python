@@ -17,6 +17,7 @@ PADRAO_ATACANTE = 2
 # Senha de admin
 senha_admin = "1234"
 
+# Função PAra salvar os dados do código
 def SalvarDados():
     dados = {
         'Jogadoras' : jogadoras,
@@ -27,6 +28,48 @@ def SalvarDados():
         'Vagas_Atacantes' : vagas_atacante,
         'Partidas' : partidas,
     }
+    try:
+        with open('campeonato.json', 'w', encoding = 'utf-8') as arquivo:
+            json.dump(dados, arquivo, indent = 2, ensure_ascii = False)
+        print("Dados salvos com sucesso!")
+        return True
+    except Exception as erro:
+        print(f"Erro ao salvar dados: {erro} ")
+        return False
+
+# Função para carregar todos os dados do arquivo json
+def CarregarDados():
+    global jogadoras, times, partidas
+    global vagas_goleira, vagas_defensora, vagas_meio, vagas_atacante
+
+    try:
+        with open('campeonato.json', 'r', encoding = 'utf-8') as arquivo:
+            dados = json.load(arquivo)
+
+        jogadoras = dados.get('Jogadoras', [])
+        times = dados.get('Times', [])
+        partidas = dados.get('Partidas', [])
+        vagas_goleira = dados.get('Vagas_goleira', [])
+        vagas_defensora = dados.get('Vagas_defensora', [])
+        vagas_meio = dados.get('Vagas_meio', [])
+        vagas_atacante = dados.get('Vagas_Atacante', [])
+
+        print("✓ Dados carregados com sucesso!")
+        print(f"   → {len(jogadoras)} jogadoras")
+        print(f"   → {len(times)} times")
+        print(f"   → {len(partidas)} partidas")
+        return True
+
+    except FileNotFoundError:
+        print("Nenhum dado salvo encontrado")
+        return False
+    except json.JSONDecodeError:
+        print("Erro: arquivo corrompido!")
+        return False
+    except Exception as erro:
+        print(f"Erro ao carregar: {erro}")
+        return False
+
 
 
 # Função para validar se o valor digitado é um número (retorna inteiro)
@@ -393,8 +436,12 @@ def RemoverJogadoras():
 print("Bem-vindo(a) ao Passa a Bola!\nSistema de organização de campeonatos")
 print("-"*40)
 
+print("\n Carregando dados salvos...")
+CarregarDados()
+print()
+
 while True:
-    usuario = input("Você é (1) Admin ou (2) Jogadora? ")
+    usuario = input("Você é (1) Admin ou (2) Jogadora?\n->")
 
     if usuario == "1":  # Admin
         senha = input("Digite a senha de administrador: ")
@@ -419,6 +466,8 @@ while True:
                 elif opcao == "4":
                     Relatorio()
                 elif opcao == "5":
+                    print("\n Salvando dados...")
+                    SalvarDados()
                     print("Fim do sistema (Admin)")
                     break
                 else:
