@@ -441,14 +441,26 @@ CarregarDados()
 print()
 
 while True:
-    usuario = input("Você é (1) Admin ou (2) Jogadora?\n->")
+    try:
+        usuario = int(input("Você é (1) Admin, (2) Jogadora ou (3) Sair?\n-> "))
 
-    if usuario == "1":  # Admin
-        senha = input("Digite a senha de administrador: ")
-        if senha != senha_admin:
-            print("Senha incorreta! Programa encerrado.")
-            break
-        else:
+        if usuario == 1:  # Admin
+            # --- Loop de autenticação ---
+            while True:
+                try:
+                    senha = input("Digite a senha de administrador: ")
+
+                    if senha != senha_admin:
+                        raise ValueError("Senha incorreta!")  # força exceção
+
+                    print("✅ Login realizado com sucesso!")
+                    break  # sai do loop de senha se acertar
+
+                except ValueError as erro:
+                    print("❌", erro)
+                    print("Tente novamente.\n")
+
+            # --- Se chegou aqui, senha está correta: abre MENU ADMIN ---
             while True:
                 print("\nMENU ADMIN\n"
                       "1. Listar times e jogadoras\n"
@@ -468,26 +480,32 @@ while True:
                 elif opcao == "5":
                     print("\n Salvando dados...")
                     SalvarDados()
-                    print("Fim do sistema (Admin)")
-                    break
+                    print("Saindo do menu Admin... voltando ao menu principal.")
+                    break  # encerra apenas o menu Admin, volta pro menu principal
                 else:
                     print("Opção inválida!")
-            break  # encerra o programa depois que Admin sai
 
-    elif usuario == "2":  # Jogadora
-        while True:
-            print("\nMENU JOGADORA\n"
-                  "1. Fazer inscrição\n"
-                  "2. Sair")
-            opcao = input("Escolha: ")
-            if opcao == "1":
-                Cadastrajoga()
-            elif opcao == "2":
-                print("Fim do sistema (Jogadora)")
-                break
-            else:
-                print("Opção inválida!")
+        elif usuario == 2:  # Jogadora
+            while True:
+                print("\nMENU JOGADORA\n"
+                      "1. Fazer inscrição\n"
+                      "2. Sair")
+                opcao = input("Escolha: ")
+                if opcao == "1":
+                    Cadastrajoga()
+                elif opcao == "2":
+                    print("Saindo do menu Jogadora... voltando ao menu principal.")
+                    break  # encerra apenas o menu Jogadora, volta pro menu principal
+                else:
+                    print("Opção inválida!")
 
-    else:
-        print("Opção inválida! Programa encerrado.")
-        break
+        elif usuario == 3:  # Sair do sistema
+            print("Programa encerrado pelo usuário.")
+            break  # esse break encerra o programa inteiro
+
+        else:
+            print("⚠️ Opção inválida! Escolha apenas 1, 2 ou 3.\n")
+
+    except ValueError:
+        print("⚠️ Entrada inválida! Digite apenas números (1, 2 ou 3).\n")
+

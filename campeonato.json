@@ -1,0 +1,44 @@
+{
+  "Jogadoras": [
+    [
+      "bla20",
+      10,
+      "Goleira",
+      "Time 1"
+    ],
+    [
+      "Blabla",
+      20,
+      "Goleira",
+      "Time 2"
+    ]
+  ],
+  "Times": [
+    "Time 1",
+    "Time 2"
+  ],
+  "Vagas_goleira": [
+    0,
+    0
+  ],
+  "Vagas_defensora": [
+    2,
+    2
+  ],
+  "Vagas_meio": [
+    2,
+    2
+  ],
+  "Vagas_Atacantes": [
+    2,
+    2
+  ],
+  "Partidas": [
+    [
+      "Time 1",
+      1,
+      "Time 2",
+      2
+    ]
+  ]
+}
