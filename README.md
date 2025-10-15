@@ -15,109 +15,180 @@ Este é um *projeto acadêmico FIAP*, desenvolvio como parte do *challenge 2025*
 
 ---
 
+# ⚽ Passa a Bola – Sistema de Organização de Campeonatos
 
-# 📌 Passa a Bola – Sistema de Organização de Campeonatos
+Sistema desenvolvido em **Python** para gerenciar campeonatos esportivos, permitindo **cadastrar jogadoras**, **gerenciar times**, **registrar partidas** e **gerar relatórios automáticos**.
+Agora com **salvamento automático em JSON** e menus separados para **Admin** e **Jogadora**.
 
-Este projeto é um sistema simples em **Python** para organizar campeonatos de futebol entre jogadoras.
-Ele permite **cadastrar jogadoras**, **gerenciar times automaticamente**, **registrar partidas** e **gerar relatórios de classificação**.
+---
+
+## 🧠 Visão Geral
+
+O **Passa a Bola** é um sistema de console simples, mas completo, para organizar campeonatos.
+Permite:
+
+* Cadastro e alocação automática de jogadoras em times.
+* Criação automática de times conforme necessidade.
+* Controle de vagas por posição.
+* Registro, edição e remoção de partidas.
+* Relatórios detalhados (classificação, jogadoras, partidas).
+* Salvamento automático em arquivo JSON.
+
+---
+
+## 📂 Estrutura de Dados
+
+| Estrutura                                                          | Tipo    | Descrição                                         |
+| ------------------------------------------------------------------ | ------- | ------------------------------------------------- |
+| `jogadoras`                                                        | list    | Cada item é `[nome, camisa, posição, time]`       |
+| `times`                                                            | list    | Lista com nomes dos times criados automaticamente |
+| `partidas`                                                         | list    | Cada item é `[time1, gols1, time2, gols2]`        |
+| `vagas_goleira`, `vagas_defensora`, `vagas_meio`, `vagas_atacante` | list    | Controlam vagas restantes em cada time            |
+| `campeonato.json`                                                  | arquivo | Armazena permanentemente todas as informações     |
+
+---
+
+## 💾 Persistência de Dados
+
+O sistema salva e carrega dados automaticamente usando o arquivo **`campeonato.json`**:
+
+* **SalvarDados()** → Exporta todas as listas para o JSON.
+* **CarregarDados()** → Recarrega os dados na inicialização.
+
+```bash
+# Arquivo JSON gerado (exemplo)
+{
+  "Jogadoras": [["Ana", 10, "Atacante", "Time 1"]],
+  "Times": ["Time 1"],
+  "Partidas": [["Time 1", 3, "Time 2", 2]],
+  ...
+}
+```
 
 ---
 
 ## ⚙️ Funcionalidades
 
-* **Cadastro de jogadoras**
+### 👥 Jogadoras
 
-  * Inscrição com nome, número da camisa e posição.
-  * Posições válidas: **Goleira**, **Defensora**, **Meio** e **Atacante**.
-  * Alocação automática em um time existente ou criação de um novo time caso necessário.
+* Cadastrar jogadoras com nome, número e posição.
+* Alocação automática em times com vagas disponíveis.
+* Criação automática de novos times quando necessário.
+* Edição e remoção de jogadoras (modo Admin).
+* Retorno de vagas ao time quando jogadora é removida.
 
-* **Gerenciamento de times**
+### 🏟️ Times
 
-  * Criação automática de times (`Time 1`, `Time 2`, ...).
-  * Controle de vagas por posição conforme a formação padrão:
+* Criação automática sequencial (“Time 1”, “Time 2”, ...).
+* Controle automático de vagas:
 
-    * 1 Goleira
-    * 2 Defensoras
-    * 2 Meio-campistas
-    * 2 Atacantes
+  | Posição   | Vagas por Time |
+  | --------- | -------------- |
+  | Goleira   | 1              |
+  | Defensora | 2              |
+  | Meio      | 2              |
+  | Atacante  | 2              |
 
-* **Gerenciamento de partidas**
+### ⚔️ Partidas
 
-  * Registro de partidas entre dois times.
-  * Armazenamento de resultados (gols de cada equipe).
-  * Listagem de todas as partidas registradas.
+* Registro de partidas entre times existentes.
+* Edição e cancelamento de partidas.
+* Exibição completa do histórico de jogos.
 
-* **Relatórios**
+### 📊 Relatórios
 
-  * Listar jogadoras por time.
-  * Exibir todas as partidas jogadas.
-  * Classificação dos times com pontuação (Vitória = 3 pontos, Empate = 1 ponto).
+* Jogadoras por time.
+* Lista de todas as partidas.
+* Classificação dos times com pontuação:
 
-* **Perfis de acesso**
-
-  * **Admin**
-
-    * Listar times e jogadoras.
-    * Gerenciar partidas.
-    * Acessar relatórios.
-  * **Jogadora**
-
-    * Fazer inscrição em um time.
+  * Vitória → 3 pontos
+  * Empate → 1 ponto
 
 ---
 
-## 🛠️ Estrutura de Dados
+## 🔐 Perfis de Acesso
 
-O sistema utiliza listas principais para armazenar as informações:
+### 👨‍💼 Admin
 
-* `jogadoras` → lista com dados das jogadoras (`nome, camisa, posição, time`).
-* `times` → lista de times cadastrados.
-* `vagas_goleira`, `vagas_defensora`, `vagas_meio`, `vagas_atacante` → vagas disponíveis por posição em cada time.
-* `partidas` → lista com partidas registradas (`time1, gols1, time2, gols2`).
+Acesso com senha padrão: **`1234`**
+
+**Menu do Admin:**
+
+1. Listar times e jogadoras
+2. Gerenciar partidas
+3. Gerenciar jogadoras
+4. Relatórios
+5. Sair (salva automaticamente)
+
+**Funções disponíveis:**
+
+* Visualizar times e jogadoras.
+* Cadastrar, editar e remover partidas.
+* Editar e excluir jogadoras.
+* Gerar relatórios de desempenho.
 
 ---
 
-## 🔐 Acesso de Admin
+### 👩 Jogadora
 
-* Senha padrão: **`1234`**
-* Menus disponíveis:
+Acesso sem senha.
+Permite apenas **inscrição em times**.
 
-  1. Listar times e jogadoras
-  2. Gerenciar partidas
-  3. Relatórios
-  4. Sair
+**Menu da Jogadora:**
+
+1. Fazer inscrição
+2. Sair
 
 ---
 
-## 📋 Fluxo do Programa
+## 🧾 Relatórios Disponíveis
 
-1. Ao iniciar, o sistema pergunta:
-
-   * **(1) Admin** ou **(2) Jogadora**
-2. Dependendo da escolha:
-
-   * Admin → acesso ao menu de gerenciamento.
-   * Jogadora → acesso ao menu de inscrição.
-3. Todas as operações são feitas via **input no terminal**.
+| Relatório          | Descrição                                |
+| ------------------ | ---------------------------------------- |
+| Jogadoras por Time | Lista jogadoras agrupadas por seus times |
+| Todas as Partidas  | Exibe todas as partidas registradas      |
+| Classificação      | Mostra ranking dos times por pontuação   |
 
 ---
 
 ## ▶️ Execução
 
-Para rodar o programa, basta executar o arquivo Python:
+1. Certifique-se de ter o **Python 3.8+** instalado.
+2. Salve o código como `passa_a_bola.py`.
+3. Execute no terminal:
 
 ```bash
 python passa_a_bola.py
 ```
 
+4. Escolha seu perfil:
+
+   * **Admin** → Acesso total.
+   * **Jogadora** → Apenas inscrição.
+   * **Sair** → Encerra o programa.
+
 ---
 
-## 🚀 Possíveis Melhorias
+## 🧩 Estrutura do Projeto
 
-* Salvar dados em arquivo (CSV/JSON) para não perder informações ao fechar o programa.
-* Interface gráfica ou versão web.
-* Estatísticas detalhadas (artilheira, saldo de gols, etc).
-* Opção de edição/exclusão de jogadoras e partidas.
+```
+📁 Passa_a_Bola/
+ ├── passa_a_bola.py
+ ├── campeonato.json        # Gerado automaticamente
+ └── README.md              # (este arquivo)
+```
+
+---
+
+## 💡 Melhorias Futuras
+
+* ✅ Persistência implementada via JSON
+* ⏳ Próximas ideias:
+
+  * Interface gráfica (Tkinter ou web)
+  * Estatísticas detalhadas (artilheira, saldo de gols)
+  * Exportação de relatórios em PDF/CSV
+  * Login individual por jogadora
 
 ---
 
