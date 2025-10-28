@@ -51,44 +51,58 @@ def SalvarDados():
 
 # Função para carregar todos os dados do arquivo JSON
 def CarregarDados():
+    """
+    Carrega todas as estruturas de dados do arquivo campeonato.json
+    Restaura o estado anterior do sistema (jogadoras, times, partidas, vagas)
+    """
+    
     # 'global' permite modificar as variáveis globais dentro da função
+    # Sem 'global', Python criaria novas variáveis locais em vez de usar as globais
     global jogadoras, times, partidas
     global vagas_goleira, vagas_defensora, vagas_meio, vagas_atacante
 
     try:
         # Abre arquivo em modo leitura ('r') com codificação UTF-8
+        # 'with' garante que o arquivo será fechado automaticamente
         with open('campeonato.json', 'r', encoding='utf-8') as arquivo:
             # Lê e converte o JSON de volta para dicionário Python
+            # json.load() transforma o texto JSON em estruturas Python
             dados = json.load(arquivo)
 
         # Carrega cada estrutura de dados do dicionário
-        # .get() retorna lista vazia [] se a chave não existir
+        # .get() retorna lista vazia [] se a chave não existir (evita erro)
+        # IMPORTANTE: As chaves devem ser EXATAMENTE iguais às usadas no SalvarDados()
         jogadoras = dados.get('Jogadoras', [])
         times = dados.get('Times', [])
         partidas = dados.get('Partidas', [])
         vagas_goleira = dados.get('Vagas_goleira', [])
         vagas_defensora = dados.get('Vagas_defensora', [])
         vagas_meio = dados.get('Vagas_meio', [])
-        vagas_atacante = dados.get('Vagas_Atacante', [])
-
-        # Exibe resumo dos dados carregados
+        vagas_atacante = dados.get('Vagas_Atacantes', [])
+        
+        # Exibe resumo dos dados carregados com sucesso
         print("✓ Dados carregados com sucesso!")
         print(f"   → {len(jogadoras)} jogadoras")
         print(f"   → {len(times)} times")
         print(f"   → {len(partidas)} partidas")
-        return True
+        return True  # Retorna True indicando sucesso
 
     except FileNotFoundError:
         # Arquivo não existe (primeira execução do programa)
-        print("Nenhum dado salvo encontrado")
+        # Não é um erro grave, apenas informa ao usuário
+        print(" Nenhum dado salvo encontrado")
         return False
+        
     except json.JSONDecodeError:
         # Arquivo JSON está mal formatado ou corrompido
-        print("Erro: arquivo corrompido!")
+        # Acontece se o arquivo foi editado manualmente de forma incorreta
+        print(" Erro: arquivo corrompido!")
         return False
+        
     except Exception as erro:
-        # Qualquer outro erro não previsto
-        print(f"Erro ao carregar: {erro}")
+        # Captura qualquer outro erro não previsto
+        # Mostra a mensagem de erro para debug
+        print(f" Erro ao carregar: {erro}")
         return False
 
 
